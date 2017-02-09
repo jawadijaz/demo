@@ -22,6 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             
             [
+                'attribute' => 'user_from',
+                'value'     => function($data) {
+                    return  $data->userFrom->username;
+                }
+            ],
+
+            [
                 'attribute' => 'user_to',
                 'value'     => function($data) {
                     return  $data->userTo->username;

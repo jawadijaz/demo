@@ -42,8 +42,8 @@ class PaymentHistorySearch extends PaymentHistory
     public function search($params)
     {
         $query = PaymentHistory::find();
-        $query->joinWith(['userTo', 'userTo']);
-        // $query->joinWith(['userFrom']);
+        $query->joinWith(['userTo as to' , 'userFrom as from']);
+        $query->where("user_from = :me OR user_to = :me",[":me" => Yii::$app->user->id]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -64,9 +64,9 @@ class PaymentHistorySearch extends PaymentHistory
             'payment' => $this->payment
             //'timestamp' => $this->timestamp,
         ]);
-        $query->andFilterWhere(['like', 'user.username', $this->user_to])
+        $query->andFilterWhere(['like', 'to.username', $this->user_to])
               ->andFilterWhere(['like', 'timestamp'  , $this->timestamp])
-              ->andFilterWhere(['like', 'user.username', $this->user_from]);
+              ->andFilterWhere(['like', 'from.username', $this->user_from]);
               
         return $dataProvider;
     }
